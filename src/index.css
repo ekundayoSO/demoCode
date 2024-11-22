@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+.content-home {
+    @apply min-h-screen bg-gradient-to-br from-teal-400 to-blue-600;
+}
+}
+
+.home {
+    padding-top: 40px;
+}
+
+
