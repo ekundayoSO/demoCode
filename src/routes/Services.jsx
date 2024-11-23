@@ -16,7 +16,8 @@ const Services = () => {
             include: 'field_services_section',
           },
         });
-
+        console.log(response.data.data);
+        
         setServices(response.data.data[0]);
         setIsLoading(false);
       } catch (err) {

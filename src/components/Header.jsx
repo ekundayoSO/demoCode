@@ -68,6 +68,16 @@ const Header = () => {
               People
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/billing" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+              Billing
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/xp" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+              Druid XP
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>

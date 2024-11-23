@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const WorkingWithUs = () => {
-  const [vacancies, setVacancies] = useState([]);
+const DruidXp = () => {
+  const [xp, setXp] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,15 +11,14 @@ const WorkingWithUs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${drupalBaseUrl}/jsonapi/node/working_with_us`, {
+        const response = await axios.get(`${drupalBaseUrl}/jsonapi/node/druid_xp`, {
           params: {
-            include:
-              'field_work_with_us,field_work_with_us.field_service_image.field_media_image,field_work_with_us.field_video',
+            include: 'field_druid_xp,field_druid_xp.field_add_image.field_media_image',
           },
         });
         console.log(response.data.data);
-        
-        setVacancies(response.data.data);
+
+        setXp(response.data.data);
         setIsLoading(false);
       } catch (err) {
         setError('An error occurred while fetching the data');
@@ -33,55 +32,34 @@ const WorkingWithUs = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (vacancies.length === 0) return <div>No services available</div>;
+  if (xp.length === 0) return <div>No services available</div>;
 
   return (
     <div>
-      {vacancies.map((vacancy) => {
-        const {id, title, field_work_with_us } = vacancy;
+      {xp.map((node) => {
+        const { id, title, field_druid_xp } = node;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
             <h2 className="font-bold">{title.toUpperCase()}</h2>
-            {field_work_with_us?.map((item) => {
+            {field_druid_xp?.map((item) => {
               switch (item.type) {
-                case 'paragraph--services_images':
+                case 'paragraph--add_image':
                   return (
                     <div key={item.id}>
-                      {item.field_service_image && item.field_service_image[0]?.field_media_image && (
+                      {item.field_add_image && item.field_add_image[0]?.field_media_image && (
                         <img
-                          src={`${drupalBaseUrl}${item.field_service_image[0].field_media_image[0].uri.url}`}
-                          alt={item.field_service_image[0].field_media_image[0].meta.alt || 'Service Image'}
+                          src={`${drupalBaseUrl}${item.field_add_image[0].field_media_image[0].uri.url}`}
+                          alt={item.field_add_image[0].field_media_image[0].meta.alt || 'XP Image'}
                           className="mx-auto w-full h-auto max-w-screen-md object-cover"
                         />
                       )}
-                    </div>
-                  );
-                case 'paragraph--hero_message':
-                  return (
-                    <div key={item.id}>
-                      <div dangerouslySetInnerHTML={{ __html: item.field_message?.value || 'Not Provided' }} />
                     </div>
                   );
                 case 'paragraph--topic':
                   return (
                     <div key={item.id}>
                       <h4>{item.field_short_heading?.[0]?.value || 'Topic Title Not Available'}</h4>
-                    </div>
-                  );
-                case 'paragraph--faqs':
-                  return (
-                    <div key={item.id} className="faqs-section">
-                      <h3>Frequently Asked Questions</h3>
-                      {item.field_faqs?.map((faq, index) => (
-                        <div key={index} className="faq-item">
-                          <h4 className="faq-question">{faq.question}</h4>
-                          <div
-                            className="faq-answer"
-                            dangerouslySetInnerHTML={{ __html: faq.answer || 'No answer provided' }}
-                          />
-                        </div>
-                      ))}
                     </div>
                   );
                 case 'paragraph--long_description':
@@ -94,26 +72,15 @@ const WorkingWithUs = () => {
                       />
                     </div>
                   );
-                case 'paragraph--link':
+                  case 'paragraph--link':
                   return (
                     <div key={item.id}>
                       {item.field_additional_infomation && (
-                        <div className="font-bold text-md">
+                        <div>
                           <a href={item.field_additional_infomation.uri} target="_blank" rel="noopener noreferrer">
                             {item.field_additional_infomation.title || 'Read more'}
                           </a>
                         </div>
-                      )}
-                    </div>
-                  );
-                case 'paragraph--video':
-                  return (
-                    <div key={item.id} className="video-container">
-                      {item.field_video && (
-                        <video controls width="100%" height="auto">
-                          <source src={`${drupalBaseUrl}${item.field_video.uri}`} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
                       )}
                     </div>
                   );
@@ -132,4 +99,4 @@ const WorkingWithUs = () => {
   );
 };
 
-export default WorkingWithUs;
+export default DruidXp;

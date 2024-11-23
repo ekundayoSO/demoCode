@@ -7,6 +7,8 @@ import ServicesReadMore from './routes/ServicesReadMore.jsx';
 import Careers from './routes/Careers.jsx';
 import WorkingWithUs from './routes/WorkingWithUs.jsx';
 import MeetTheDruids from './routes/MeetTheDruidss.jsx';
+import Billing from './components/Billing.jsx';
+import DruidXp from './routes/DruidXp.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +23,8 @@ function App() {
         { path: '/careers', element: <Careers /> },
         { path: '/vacancies', element: <WorkingWithUs /> },
         { path: '/people', element: <MeetTheDruids /> },
+        { path: '/billing', element: <Billing /> },
+        { path: '/xp', element: <DruidXp /> },
       ],
     },
   ]);

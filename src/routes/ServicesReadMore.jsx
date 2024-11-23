@@ -37,7 +37,7 @@ const ServicesReadMore = () => {
   return (
     <div>
       {readMore.map((serviceReadMore) => {
-        const {id, title, field_link, field_read_more } = serviceReadMore;
+        const {id, title, field_read_more } = serviceReadMore;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
@@ -69,10 +69,12 @@ const ServicesReadMore = () => {
                 case 'paragraph--link':
                   return (
                     <div key={item.id}>
-                      {field_link?.uri && (
-                        <a href={field_link.uri} target="_blank" rel="noopener noreferrer">
-                          {field_link.title || 'Visit the site'}
-                        </a>
+                      {item.field_additional_infomation && (
+                        <div className=''>
+                          <a href={item.field_additional_infomation.uri} target="_blank" rel="noopener noreferrer">
+                            {item.field_additional_infomation.title || 'Read more'}
+                          </a>
+                        </div>
                       )}
                     </div>
                   );
@@ -92,7 +94,9 @@ const ServicesReadMore = () => {
                 case 'paragraph--feedback':
                   return (
                     <div key={item.id}>
-                      <div dangerouslySetInnerHTML={{ __html: item.field_customers_feedbacks?.value || 'Not Provided' }} />
+                      <div
+                        dangerouslySetInnerHTML={{ __html: item.field_customers_feedbacks?.value || 'Not Provided' }}
+                      />
                     </div>
                   );
 
