@@ -6,6 +6,7 @@ import Services from './routes/Services.jsx';
 import ServicesReadMore from './routes/ServicesReadMore.jsx';
 import Careers from './routes/Careers.jsx';
 import WorkingWithUs from './routes/WorkingWithUs.jsx';
+import MeetTheDruids from './routes/MeetTheDruidss.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -19,6 +20,7 @@ function App() {
         { path: '/service-read-more', element: <ServicesReadMore /> },
         { path: '/careers', element: <Careers /> },
         { path: '/vacancies', element: <WorkingWithUs /> },
+        { path: '/people', element: <MeetTheDruids /> },
       ],
     },
   ]);

@@ -63,6 +63,11 @@ const Header = () => {
               Vacancies
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/people" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+              People
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>
