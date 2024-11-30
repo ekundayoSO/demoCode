@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Root from './routes/Root.jsx';
-import DruidProject from './routes/DruidProject.jsx';
+// import DruidProject from './routes/DruidProject.jsx';
 import BlogItem from './routes/BlogItem.jsx';
 import Services from './routes/Services.jsx';
 import ServicesReadMore from './routes/ServicesReadMore.jsx';
@@ -9,6 +9,8 @@ import WorkingWithUs from './routes/WorkingWithUs.jsx';
 import MeetTheDruids from './routes/MeetTheDruidss.jsx';
 import Billing from './components/Billing.jsx';
 import DruidXp from './routes/DruidXp.jsx';
+import DruidProjectList from './routes/projects/ProjectList.jsx';
+import DruidProjectCase from './routes/projects/Project.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -16,7 +18,8 @@ function App() {
       path: '/',
       element: <Root />,
       children: [
-        { path: '/druid-projects', element: <DruidProject /> },
+        { path: '/', element: <DruidProjectList />},
+        { path: '/case/:id', element: <DruidProjectCase />},
         { path: '/blog', element: <BlogItem /> },
         { path: '/services', element: <Services /> },
         { path: '/service-read-more', element: <ServicesReadMore /> },

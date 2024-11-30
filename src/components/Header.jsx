@@ -31,8 +31,8 @@ const Header = () => {
       <nav className={`md:block ${isOpen ? 'block' : 'hidden'} transition-all duration-300`}>
         <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
           <li>
-            <NavLink to="/druid-projects" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
-              DruidProject
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+              Projects
             </NavLink>
           </li>
           <li>
