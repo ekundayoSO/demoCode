@@ -32,13 +32,13 @@ const Billing = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
+    <div className='mx-auto mt-2' style={{border: "4px solid purple", maxWidth: "1400px"}}>
       <div
         dangerouslySetInnerHTML={{
           __html: billing.body?.[0]?.value || 'Long Description Not Available',
         }}
       />
-    </>
+    </div>
   );
 }
 

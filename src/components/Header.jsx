@@ -9,9 +9,9 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-black text-white flex items-center justify-between p-4 sticky top-0">
+    <header className="bg-black text-white flex items-center justify-between p-4 sticky top-0 z-50">
       <h1 className="logo">
-        <Link to="/home">Ekundayo Sulaimon</Link>
+        <Link to="/">Ekundayo Sulaimon</Link>
       </h1>
       <button onClick={toggleMenu} className="md:hidden focus:outline-none">
         <svg
@@ -28,11 +28,15 @@ const Header = () => {
           )}
         </svg>
       </button>
-      <nav className={`md:block ${isOpen ? 'block' : 'hidden'} transition-all duration-300`}>
-        <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+      <nav
+        className={`md:block ${
+          isOpen ? 'block absolute top-full left-0 right-0 bg-black' : 'hidden'
+        } transition-all duration-300 ease-in-out`}
+      >
+        <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4 md:p-0">
           <li>
-            <NavLink to="/druid-projects" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
-              DruidProject
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+              Projects
             </NavLink>
           </li>
           <li>
@@ -46,18 +50,10 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/service-read-more"
-              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
-            >
-              Read more
-            </NavLink>
-          </li>
-          <li>
             <NavLink to="/careers" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
               Careers
             </NavLink>
-          </li>{' '}
+          </li>
           <li>
             <NavLink to="/vacancies" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
               Vacancies

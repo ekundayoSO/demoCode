@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ServicesReadMore = () => {
-  const [readMore, setReadMore] = useState([]);
+const DruidProject = () => {
+  const [cases, setCases] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,14 +11,18 @@ const ServicesReadMore = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${drupalBaseUrl}/jsonapi/node/services_new`, {
+        const response = await axios.get(`${drupalBaseUrl}/jsonapi/node/single_case`, {
           params: {
-            include: 'field_read_more,field_read_more.field_service_image.field_media_image',
+            include:
+              'field_hero_image,field_project_description,field_services_taxonomy,field_project_description.field_service_image.field_media_image',
           },
         });
+
         console.log(response.data.data);
         
-        setReadMore(response.data.data);
+
+        const responseData = response.data.data;
+        setCases(responseData);
         setIsLoading(false);
       } catch (err) {
         setError('An error occurred while fetching the data');
@@ -32,28 +36,56 @@ const ServicesReadMore = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (readMore.length === 0) return <div>No services available</div>;
+  if (cases.length === 0) return <div>No cases available</div>;
 
   return (
     <div>
-      {readMore.map((serviceReadMore) => {
-        const {id, title, field_read_more } = serviceReadMore;
+      {cases.map((caseItem) => {
+        const {
+          id,
+          title,
+          field_client,
+          field_link,
+          field_project_description,
+          field_services_taxonomy,
+          field_hero_image,
+        } = caseItem;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
-            <h2 className='font-bold'>{title.toUpperCase()}</h2>
-            {field_read_more?.map((item) => {
+            {field_hero_image && (
+              <img
+                src={`${drupalBaseUrl}${field_hero_image.uri.url}`}
+                alt={field_hero_image.meta.alt || 'Hero Image'}
+                className="mx-auto w-full h-auto max-w-screen-md object-cover"
+                style={{ maxHeight: '700px' }}
+              />
+            )}
+            <h2>{title}</h2>
+            {field_client && <p>Client: {field_client}</p>}
+            <ul>
+              {field_services_taxonomy?.map((service) => (
+                <li key={service.id}>{service.name}</li>
+              ))}
+            </ul>
+            {field_link?.uri && (
+              <a href={field_link.uri} target="_blank" rel="noopener noreferrer">
+                {field_link.title || 'Visit the site'}
+              </a>
+            )}
+            <h3>Project Description:</h3>
+            {field_project_description?.map((item) => {
               switch (item.type) {
-                case 'paragraph--hero_message':
+                case 'paragraph--company_name':
                   return (
                     <div key={item.id}>
-                      <div dangerouslySetInnerHTML={{ __html: item.field_message?.value || 'Not Provided' }} />
+                      <p>{item.field_name.value || 'Not Provided'}</p>
                     </div>
                   );
                 case 'paragraph--topic':
                   return (
                     <div key={item.id}>
-                      <h4>{item.field_short_heading?.[0]?.value || 'Topic Title Not Available'}</h4>
+                      <h4>{item.field_short_heading[0].value || 'Topic Title Not Available'}</h4>
                     </div>
                   );
                 case 'paragraph--long_description':
@@ -64,18 +96,6 @@ const ServicesReadMore = () => {
                           __html: item.field_content?.[0]?.value || 'Long Description Not Available',
                         }}
                       />
-                    </div>
-                  );
-                case 'paragraph--link':
-                  return (
-                    <div key={item.id}>
-                      {item.field_additional_infomation && (
-                        <div className=''>
-                          <a href={item.field_additional_infomation.uri} target="_blank" rel="noopener noreferrer">
-                            {item.field_additional_infomation.title || 'Read more'}
-                          </a>
-                        </div>
-                      )}
                     </div>
                   );
                 case 'paragraph--services_images':
@@ -90,16 +110,6 @@ const ServicesReadMore = () => {
                       )}
                     </div>
                   );
-
-                case 'paragraph--feedback':
-                  return (
-                    <div key={item.id}>
-                      <div
-                        dangerouslySetInnerHTML={{ __html: item.field_customers_feedbacks?.value || 'Not Provided' }}
-                      />
-                    </div>
-                  );
-
                 default:
                   return (
                     <div key={item.id}>
@@ -115,4 +125,4 @@ const ServicesReadMore = () => {
   );
 };
 
-export default ServicesReadMore;
+export default DruidProject;
