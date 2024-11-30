@@ -4,7 +4,7 @@ import BlogItem from './routes/BlogItem.jsx';
 import Careers from './routes/Careers.jsx';
 import WorkingWithUs from './routes/WorkingWithUs.jsx';
 import MeetTheDruids from './routes/MeetTheDruidss.jsx';
-import Billing from './components/Billing.jsx';
+import Billing from './routes/Billing.jsx';
 import DruidXp from './routes/DruidXp.jsx';
 import DruidProjectList from './routes/projects/ProjectList.jsx';
 import DruidProjectCase from './routes/projects/Project.jsx';
@@ -26,7 +26,7 @@ function App() {
         { path: 'vacancies', element: <WorkingWithUs /> },
         { path: 'people', element: <MeetTheDruids /> },
         { path: 'billing', element: <Billing /> },
-        { path: 'xp', element: <DruidXp /> },
+        { path: 'druid-xp', element: <DruidXp /> },
       ],
     },
   ]);
