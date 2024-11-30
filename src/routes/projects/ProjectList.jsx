@@ -65,7 +65,7 @@ const DruidProjectList = () => {
                   {field_services_taxonomy?.map((service, index, array) => (
                     <li className="inline-block list-none" key={service.id}>
                       {service.name}
-                      {index < array.length - 1 && <span className="mr-1">{" "}/</span>}
+                      {index < array.length - 1 && <span className="mr-1"> /</span>}
                     </li>
                   ))}
                 </ul>
@@ -74,6 +74,7 @@ const DruidProjectList = () => {
             {field_card_description && (
               <div className="mt-2" dangerouslySetInnerHTML={{ __html: field_card_description.processed }} />
             )}
+            <span className="mr-1 text-red-500">&rarr; Read more</span>
           </Link>
         );
       })}
