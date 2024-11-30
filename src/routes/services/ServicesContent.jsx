@@ -69,17 +69,23 @@ const ServicesContent = () => {
               </div>
             );
           case 'paragraph--link':
-            return (
-              <div key={item.id}>
-                {item.field_additional_infomation && (
-                  <div className="">
+            if (item.field_additional_infomation?.title === 'Explore Druid XP') {
+              return (
+                <div key={item.id} className="mt-2">
+                  <Link className='p-2' style={{border: "1px solid blue", backgroundColor: "black", color: "white", borderRadius: "4px"}} to="/druid-xp" target='_blank'>{item.field_additional_infomation.title}</Link>
+                </div>
+              );
+            } else {
+              return (
+                <div key={item.id} className="link">
+                  {item.field_additional_infomation && (
                     <a href={item.field_additional_infomation.uri} target="_blank" rel="noopener noreferrer">
                       {item.field_additional_infomation.title || 'Read more'}
                     </a>
-                  </div>
-                )}
-              </div>
-            );
+                  )}
+                </div>
+              );
+            }
           case 'paragraph--services_images':
             return (
               <div key={item.id}>
