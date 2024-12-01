@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 const WorkingWithUs = () => {
+  const videoRefs = useRef({});
   const [vacancies, setVacancies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +19,7 @@ const WorkingWithUs = () => {
           },
         });
         console.log(response.data.data);
-        
+
         setVacancies(response.data.data);
         setIsLoading(false);
       } catch (err) {
@@ -31,6 +32,16 @@ const WorkingWithUs = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Play all videos continuously
+    Object.values(videoRefs.current).forEach((video) => {
+      if (video) {
+        video.play();
+        video.loop = true;
+      }
+    });
+  }, [vacancies]);
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (vacancies.length === 0) return <div>No services available</div>;
@@ -38,7 +49,7 @@ const WorkingWithUs = () => {
   return (
     <div>
       {vacancies.map((vacancy) => {
-        const {id, title, field_work_with_us } = vacancy;
+        const { id, title, field_work_with_us } = vacancy;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
@@ -110,7 +121,13 @@ const WorkingWithUs = () => {
                   return (
                     <div key={item.id} className="video-container">
                       {item.field_video && (
-                        <video controls width="100%" height="auto">
+                        <video
+                          ref={(el) => (videoRefs.current[item.id] = el)}
+                          muted
+                          controls
+                          width="100%"
+                          height="auto"
+                        >
                           <source src={`${drupalBaseUrl}${item.field_video.uri}`} type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
