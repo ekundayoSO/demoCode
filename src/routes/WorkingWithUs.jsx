@@ -2,10 +2,11 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 const WorkingWithUs = () => {
-  const videoRefs = useRef({});
   const [vacancies, setVacancies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const videoRef = useRef(null); 
+  const [openFAQ, setOpenFAQ] = useState(null);
 
   const drupalBaseUrl = 'https://druid-final-project-team1.lndo.site';
 
@@ -33,14 +34,17 @@ const WorkingWithUs = () => {
   }, []);
 
   useEffect(() => {
-    // Play all videos continuously
-    Object.values(videoRefs.current).forEach((video) => {
-      if (video) {
-        video.play();
-        video.loop = true;
-      }
-    });
+    if (videoRef.current) {
+      videoRef.current.play();
+      videoRef.current.loop = true;
+    }
   }, [vacancies]);
+
+
+  const toggleFAQ = (index) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -49,11 +53,10 @@ const WorkingWithUs = () => {
   return (
     <div>
       {vacancies.map((vacancy) => {
-        const { id, title, field_work_with_us } = vacancy;
+        const { id, field_work_with_us } = vacancy;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
-            <h2 className="font-bold">{title.toUpperCase()}</h2>
             {field_work_with_us?.map((item) => {
               switch (item.type) {
                 case 'paragraph--services_images':
@@ -82,13 +85,32 @@ const WorkingWithUs = () => {
                   );
                 case 'paragraph--faqs':
                   return (
-                    <div key={item.id} className="faqs-section">
-                      <h3>Frequently Asked Questions</h3>
+                    <div key={item.id} className="faqs-section pl-4 m-4" style={{maxWidth: "800px"}}>
+                      <h3 className="text-lg font-semibold mb-4">FAQs</h3>
                       {item.field_faqs?.map((faq, index) => (
-                        <div key={index} className="faq-item">
-                          <h4 className="faq-question">{faq.question}</h4>
+                        <div key={index} className="faq-item border-b border-gray-200">
+                          <button
+                            className="w-full text-left py-2 px-4 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onClick={() => toggleFAQ(index)}
+                          >
+                            <span className="faq-question font-medium">{faq.question}</span>
+                            <svg
+                              className={`w-5 h-5 transform transition-transform ${
+                                openFAQ === index ? 'rotate-180' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                          </button>
                           <div
-                            className="faq-answer"
+                            className={`faq-answer px-4 overflow-hidden transition-all ${
+                              openFAQ === index ? 'max-h-screen' : 'max-h-0'
+                            }`}
                             dangerouslySetInnerHTML={{ __html: faq.answer || 'No answer provided' }}
                           />
                         </div>
@@ -122,7 +144,7 @@ const WorkingWithUs = () => {
                     <div key={item.id} className="video-container">
                       {item.field_video && (
                         <video
-                          ref={(el) => (videoRefs.current[item.id] = el)}
+                          ref={videoRef} 
                           muted
                           controls
                           width="100%"
