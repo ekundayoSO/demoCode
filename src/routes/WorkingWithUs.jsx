@@ -49,11 +49,10 @@ const WorkingWithUs = () => {
   return (
     <div>
       {vacancies.map((vacancy) => {
-        const { id, title, field_work_with_us } = vacancy;
+        const { id, field_work_with_us } = vacancy;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
-            <h2 className="font-bold">{title.toUpperCase()}</h2>
             {field_work_with_us?.map((item) => {
               switch (item.type) {
                 case 'paragraph--services_images':
