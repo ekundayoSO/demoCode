@@ -37,11 +37,10 @@ const DruidXp = () => {
   return (
     <div>
       {xp.map((node) => {
-        const { id, title, field_druid_xp } = node;
+        const { id, field_druid_xp } = node;
 
         return (
           <div style={{ border: '4px solid green', maxWidth: '1600px' }} key={id} className="case mb-4 mx-auto">
-            <h2 className="font-bold">{title.toUpperCase()}</h2>
             {field_druid_xp?.map((item) => {
               switch (item.type) {
                 case 'paragraph--add_image':
