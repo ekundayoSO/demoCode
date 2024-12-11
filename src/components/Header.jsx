@@ -3,15 +3,29 @@ import { Link, NavLink } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+    setIsDropdownOpen(false); // Close dropdown too
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+
   return (
-    <header className="bg-black text-white flex items-center justify-between p-4 sticky top-0 z-50">
+    <header className="bg-black text-white flex items-center justify-between p-4 sticky top-0">
       <h1 className="logo">
-        <Link to="/">Ekundayo Sulaimon</Link>
+        <Link to="/home">Ekundayo Sulaimon</Link>
       </h1>
       <button onClick={toggleMenu} className="md:hidden focus:outline-none">
         <svg
@@ -28,45 +42,117 @@ const Header = () => {
           )}
         </svg>
       </button>
-      <nav
-        className={`md:block ${
-          isOpen ? 'block absolute top-full left-0 right-0 bg-black' : 'hidden'
-        } transition-all duration-300 ease-in-out`}
-      >
-        <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4 md:p-0">
-          <li>
-            <NavLink to="/" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
-              Projects
-            </NavLink>
+      <nav className={`md:block ${isOpen ? 'block' : 'hidden'} transition-all duration-300`}>
+        <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+          <li className="relative">
+            <button onClick={toggleDropdown} className="text-white focus:outline-none">
+              Our Services
+            </button>
+            {isDropdownOpen && (
+              <ul className="absolute bg-black text-white rounded-md shadow-lg mt-2 space-y-2 p-2">
+                <li>
+                  <NavLink
+                    to="/projects"
+                    onClick={() => {
+                      closeMenu();
+                      closeDropdown();
+                    }}
+                    className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+                  >
+                    Projects
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/services"
+                    onClick={() => {
+                      closeMenu();
+                      closeDropdown();
+                    }}
+                    className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+                  >
+                    Services
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/consultation"
+                    onClick={() => {
+                      closeMenu();
+                      closeDropdown();
+                    }}
+                    className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+                  >
+                    Consultation
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/maintenance"
+                    onClick={() => {
+                      closeMenu();
+                      closeDropdown();
+                    }}
+                    className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+                  >
+                    Maintenance
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
-            <NavLink to="/blog" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+            <NavLink
+              to="/blog"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
               BlogItem
             </NavLink>
           </li>
           <li>
-            <NavLink to="/services" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
-              Services
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/careers" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+            <NavLink
+              to="/careers"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
               Careers
             </NavLink>
           </li>
           <li>
-            <NavLink to="/vacancies" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+            <NavLink
+              to="/vacancies"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
               Vacancies
             </NavLink>
           </li>
           <li>
-            <NavLink to="/people" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+            <NavLink
+              to="/employees"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
               People
             </NavLink>
           </li>
           <li>
-            <NavLink to="/billing" className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}>
+            <NavLink
+              to="/billing"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
               Billing
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/mautic"
+              onClick={closeMenu}
+              className={({ isActive }) => (isActive ? 'text-yellow-400' : 'text-white')}
+            >
+              Mautic
             </NavLink>
           </li>
         </ul>
